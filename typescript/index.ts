@@ -150,3 +150,101 @@ function myfunc ( a: 'kim' ){
 //'kim'이라는 자료만 들어올 수 있습니다. x
 }
 myfunc(data.name) //error data.name은 자료이다. 타입이 아니다. 타입은 string이다.
+
+//위 문제점을 보완할 수 있는 방법.
+var data2 = {
+    name: 'lee'
+} as const 
+//효과1. obj value 값을 그대로 타입으로 지정해준다. 효과2 : obj 속성들에 모두 readonly 붙여준다.
+//obj자료를 완전히 잠가놓고 싶으면 as const를 사용하자.
+
+
+// ------------------------- 9강 함수와 method에 type alias 지정하는 법. 
+type fucType = (a : string) => number; //파라미터는 string이고, 반환값은 number이다. 
+
+() => { return 10} // === () => 10
+
+let fuc6 : fucType = function (){
+    return 10
+}//함수 표현식에만 타입지정이 가능하다. 
+
+//obj 안에 함수 만들기
+let user4 = {
+    name: 'kim',
+    plusOne(a: number):number{
+        return a + 1
+    }
+}
+user4.plusOne()
+
+//---------------------------10강 타입스크립트로 HTML 변경과 조작할 때 주의점
+let title = document.querySelector('#title');
+title.innerHTML = '반가워요'; //유니온타입이다. 타입을 하나로 narrowing으로 해야한다.아래와 같다. 
+//첫번째 방법.
+if(title !=null){
+    title.innerHTML ='Hello';
+}
+//두번째 방법
+if(title instanceof Element){//Element 요소의 자식에 title이 있냐? ->true
+    title.innerHTML = 'hehe'; 
+}
+//세번째 type assertion
+let title2 = document.querySelector('#title') as Element //타입을 Element로 간주해주세요~ 100퍼 확신일때(너무 자주 사용하면 안되.)
+if(title2?.innerHTML){//?를 넣으면 1.제목에 innerHTML이 있으면 출력해주고 없으면 undefined 뱉어주세요.
+    title2.innerHTML = 'haha';
+}
+
+let link = document.querySelector('.link');
+if(link instanceof HTMLAnchorElement){//이타입은 href, style,class 등을 사용할 수 있어요~ 라는 속성이 있기 때문에 정확한 속성을 알아야한다. 
+    link.href = 'https://kakao.com'
+}
+
+let btn = document.querySelector('#button');
+btn?.addEventListener('click', function(){
+    //의미: btn에 이벤트리스너 가능하면 해주시고 아니면 undefined 뱉어주세요.
+})
+
+
+//-------------------- 13강 
+class Person2 {
+    name: string;
+    constructor(a:string){
+        this.name = a;
+    }
+    func2(a:string){
+        console.log('hello' + a)
+    }
+}//복제되는게 항상 오브젝트인데 리턴 타입지정할 이유는 없다.
+let person01 = new Person2('hello');
+Person2.prototype.func2 = function(){}//프로토타입 지정
+person01.func2('hi')
+
+//---------------------------14강
+let rec = {color: 'red', width: '100'}
+type Square = { color : string, width : number}
+//interface Square { color: string, width: number}
+
+let student: Student ={name: 'kim'}
+let teacher = { name: 'lee', age: 20}
+
+interface Student {
+    name: string;
+}
+interface Teacher {
+    name: string;
+    age:number;
+}
+//인터페이스 장점. extends로 복사 가능. Student를 이용하여 Teacher을 바꿔보자. 
+interface Teacher extends Student {
+    age: number;
+}
+
+//Type도 비슷한 기능이 있다.
+type Animal5 = {name: string}
+type Cat = { age : number} & Animal //인터섹션이라고 한다.  왼쪽도 만족하고 오른쪽도 만족하는 타입을 만들어 주세요. 
+//복사해달라는 의미가 아니라 둘다 만족하는 타입을 만들어 주세요랑 같다. 
+
+//Type VS interface
+//1. 타입은 중복선언 불가능하고, 인터페이는 중복선언 가능하다. 인터페이스에 중복선언을 할경우 중복된 것들이 자동으로 합쳐진다.
+//2.인터페이스의 장점: 외부 라이브러리같은 경우 인터페이스가 많다. ->커스터마이징이 쉽다. 속성을 추가 가능
+//다른 사람이 이용많이 할 것 같으면 object 타입 정할 때 interface 쓰셈.
