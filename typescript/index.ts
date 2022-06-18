@@ -145,6 +145,7 @@ fuc5("hello")//
 var data = {
     name : 'kim'
 }
+
 function myfunc ( a: 'kim' ){
 //'kim'이라는 타입만 들어올 수 있습니다. 0
 //'kim'이라는 자료만 들어올 수 있습니다. x
