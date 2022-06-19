@@ -71,4 +71,57 @@ function func6(p:string){
     }else {
         console.log(p) //파라미터가 string으로 들어오는데 else문이 있을 수가 있나? 
     }
+}붙
+
+//----------------- 4강 public, private 
+class User2 {
+   public name:string;//필드에서 name = 'kim'을 만드나
+   //public 일 경우모든 자식들이 이용가능,수정가능하다. (붙여도 안붙여도 된다.생략가능 )
+   //private 일경우 class 안에서만 수정, 이용가능하다. 
+    constructor(a){//constructure에서 만드나 결과는 같다. 다만 파라미터를 가질 수 있느냐 없느냐 차이다. 
+        this.name = a
+    }
 }
+let user5 = new User2('a');
+
+class User3 {
+    name: string;
+    private familyname : string = 'kim' //실수로 패밀리네임을 외부에서 수정하지 못하게 하려면 private를 사용한다.  
+    constructor(a){
+        this.name = a + this.familyname;//필드값을 가져오려면 this를 써야한다. 
+    }
+}
+let user6 = new User3('민수')
+
+//----------------- 5강 protect, static 키워드
+class User6 {
+    protected x= 10;
+}
+class NewUser extends User6 {
+    doThis(){
+        this.x = 20 ;
+    }
+}
+
+//---------------------7강 import.export 그리고 namespace 
+//---------------------8강 제네릭
+
+function fuc7(x: number[]){
+    return x[0];
+}
+let ab = fuc7([4,2])
+console.log(ab + 1)
+
+interface Animal2 {
+    name : string;
+    age : number 
+  }
+  
+  let data23= '{"name" : "dog", "age" : 1 }';
+  
+  
+  function 함수<Type>(x :string) :Type {
+    return JSON.parse(x);
+  }
+  let result = 함수<Animal>(data23)
+  console.log(result)
