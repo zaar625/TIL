@@ -125,3 +125,38 @@ interface Animal2 {
   }
   let result = 함수<Animal>(data23)
   console.log(result)
+
+  //-------9강 tuple type
+
+let mung : [string,boolean] = ['dog', true]
+//튜플 안에 옵션표시 가능. ?
+function fuc10(...x :number[]){//rest 파라미터에도 튜플적용 가능.
+    console.log(x)
+}
+fuc10(1,2,3,4,5,6)
+
+//-------10강 object index signatures
+interface StrignOnly {
+    [key : string] : string//키 값이 스트링인 것들은 string 타입입니다. 
+}
+
+let user10 = {
+    name :'kim',
+    age: '20',
+    location: 'seoul'
+}
+
+//타입 변환기도 제작 가능
+type Car = {
+    color : boolean,
+    model:boolean,
+    price : boolean | number
+}
+
+type TypeChanger<MyType> = {
+    [key in keyof MyType] : string
+}
+type NewType2 = TypeChanger<Car>
+
+
+//11강 조건문으로 타입 만들기 & infer 
