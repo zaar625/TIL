@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script> const log = (i) => console.log(i);</script>
+    <!-- 이터러블 활용하기 -->
+    <script>
+        function *infinity(i=0){
+            while(true) yield i ++
+        }
+
+        function *limit(l, iter){
+            for(const a of iter){
+                yield a;
+                if(a == l) return;
+            }
+        }
+        let iter3 = limit(4, [1,2,3,4])
+        log(iter3.next())
+
+        function *add(l){
+            for(const a of infinity(1) ){
+                if(a % 2) yield a;
+                if(a == l) return;
+            }
+
+            for(let i = 0; i < l ; i++) {
+                if(i % 2) yield i;
+            }
+        }
+        let iter2 = add(10);
+        log(iter2.next());
+        log(iter2.next());
+        log(iter2.next());
+        log(iter2.next());
+
+        // for(const a of add(40)) log(a);
+    </script>
+
+    <script>
+        log(...add(10));
+    </script>
+</body>
+</html>
